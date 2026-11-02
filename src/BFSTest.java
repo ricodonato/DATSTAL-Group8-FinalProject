@@ -57,3 +57,25 @@ public class BFSTest {
         // Start equals goal
         check("start equals goal gives one node",
                 BFS.shortestPath(graph, "C", "C").equals(List.of("C")));
+        // Unreachable goal
+        Map<String, List<String>> split = new HashMap<>();
+        addEdge(split, "P", "Q");
+        addEdge(split, "R", "S");
+        check("no path from P to S gives empty list",
+                BFS.shortestPath(split, "P", "S").isEmpty());
+
+        // Place not in the graph
+        check("unknown place gives empty list",
+                BFS.shortestPath(graph, "A", "Nowhere").isEmpty());
+    }
+
+    // Adds an undirected edge (both directions)
+    static void addEdge(Map<String, List<String>> graph, String a, String b) {
+        graph.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+        graph.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+    }
+
+    static void check(String name, boolean passed) {
+        System.out.println((passed ? "PASS: " : "FAIL: ") + name);
+    }
+}
