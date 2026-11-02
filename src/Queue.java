@@ -27,4 +27,11 @@ public class Queue<T> {
         size++;
     }
 
-    
+    public T dequeue() {
+        if (isEmpty()) throw new NoSuchElementException("Queue is empty");
+        T data = front.data;
+        front = front.next;
+        if (front == null) rear = null;
+        size--;
+        return data;
+    }
