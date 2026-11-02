@@ -38,5 +38,13 @@ public class BFS {
 
         return Collections.emptyList(); // goal not reachable
     }
+    private static List<String> buildPath(Map<String, String> parent,
+                                          String start, String goal) {
+        LinkedList<String> path = new LinkedList<>();
+        for (String at = goal; at != null; at = parent.get(at)) {
+            path.addFirst(at);
+        }
+        return path;
+    }
 
 }
