@@ -35,3 +35,16 @@ public class Queue<T> {
         size--;
         return data;
     }
+    public T peek() {
+        if (isEmpty()) throw new NoSuchElementException("Queue is empty");
+        return front.data;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+}
