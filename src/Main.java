@@ -1,5 +1,12 @@
 public class Main {
     public static void main(String[] args) {
+
+        // Graph
+        System.out.println("==== Graph TEST ====");
+
+        // Read map file
+
+
         PlaceList list = new PlaceList();
         list.add("Learning Commons");
         list.add("Bloemen");
