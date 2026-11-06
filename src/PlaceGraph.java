@@ -1,7 +1,8 @@
 public class PlaceGraph {
+
     int[][] adjacency = new int[10][10];
     // initialize vertices
-    String[] places = {"Bro_Connon_Hall", "La_Salle_Hall", "Henry_Sy_Sr_Hall"
+    String[] places = {"Br_Connon_Hall", "La_Salle_Hall", "Henry_Sy_Sr_Hall"
             , "Bloemen_Hall", "Mutien_Marie_Hall", "Velasco_Hall",
             "Miguel_Hall", "Gokongwei_Hall", "Razon_Sports_Complex",
                 "Andrew_Gonzales_Building"};
@@ -38,19 +39,19 @@ public class PlaceGraph {
     // print the adjacency matrix
     void displayAdjacencyMatrix(){
         // header
-        IO.println("        Bro. Connon Hall        La Salle Hall       " +
-                "Henry Sy Sr. Hall      Bloemen Hall        Mutien Marie " +
-                "Hall       Velasco Hall        Miguel Hall     Gokongwei " +
-                "Hall       Razon Sports Complex        Andrew Gonzales Hall");
+        IO.println("                                BCH        LSH      " +
+                " HSSH         BH         MM " +
+                "        VH         MH         GH " +
+                "       RSC        AGH");
 
         // get every place
         for (int i = 0; i < 10; i++)
         {
-            IO.print(places[i] + "\t");
+            System.out.printf("%-33s", places[i]);
             // generate place's every connection
             for (int j = 0; j < 10; j++)
             {
-                IO.print(adjacency[i][j] + "\t");
+                System.out.printf("%-11s", adjacency[i][j]);
             }
             IO.println();
         }
