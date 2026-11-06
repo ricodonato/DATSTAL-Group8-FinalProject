@@ -1,0 +1,15 @@
+La_Salle_Hall Br_Connon_Hall
+La_Salle_Hall Henry_Sy_Sr_Hall
+Br_Connon_Hall Henry_Sy_Sr_Hall
+Br_Connon_Hall Bloemen_Hall
+Henry_Sy_Sr_Hall Bloemen_Hall
+Henry_Sy_Sr_Hall Velasco_Hall
+Bloemen_Hall Velasco_Hall
+Bloemen_Hall Miguel_Hall
+Bloemen_Hall Mutien_Marie_Hall
+Miguel_Hall Mutien_Marie_Hall
+Miguel_Hall Gokongwei_Hall
+Velasco_Hall Gokongwei_Hall
+Gokongwei_Hall Razon_Sports_Complex
+Gokongwei_Hall Andrew_Gonzales_Building
+Razon_Sports_Complex Andrew_Gonzales_Building

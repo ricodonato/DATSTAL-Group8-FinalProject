@@ -1,11 +1,39 @@
+import java.io.*;
+import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+
+        // Graph
+        System.out.println("==== PlaceGraph TEST ====");
+        PlaceGraph places = new PlaceGraph();
+        String[] linePlaces = new String[2];
+
+        // Read map file
+        try(BufferedReader r = new BufferedReader(new FileReader("map.txt")))
+        {
+            String line;
+            while(((line = r.readLine()) != null))
+            {
+                linePlaces = line.split(" ");
+                places.addEdge(linePlaces[0], linePlaces[1]);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // print the adjacency matrix
+        places.displayAdjacencyMatrix();
+
+
+
+
         PlaceList list = new PlaceList();
         list.add("Learning Commons");
         list.add("Bloemen");
         list.add("Yuchengco Auditorium");
 
-        System.out.println("===== PlaceList TEST =====");
+        System.out.println("\n\n===== PlaceList TEST =====");
 
         // size
         System.out.println("A. Count the places");
