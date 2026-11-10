@@ -9,6 +9,8 @@ public class Main {
         PlaceGraph places = new PlaceGraph();
         String[] linePlaces = new String[2];
 
+        PlaceList mapList = new PlaceList();
+
         // Read map file
         try(BufferedReader r = new BufferedReader(new FileReader("map.txt")))
         {
@@ -17,6 +19,13 @@ public class Main {
             {
                 linePlaces = line.split(" ");
                 places.addEdge(linePlaces[0], linePlaces[1]);
+
+                // save each place once
+                for (String name : linePlaces) {
+                    if (mapList.indexOf(name) == -1) {
+                        mapList.add(name);
+                    }
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -25,6 +34,17 @@ public class Main {
         // print the adjacency matrix
         places.displayAdjacencyMatrix();
 
+        // sort test
+        System.out.println("\n\n===== Sort TEST =====");
+        System.out.println("Before:");
+        for (int i = 0; i < mapList.size; i++) {
+            System.out.println(mapList.get(i));
+        }
+        mapList.sortAZ();
+        System.out.println("\nAfter (A to Z):");
+        for (int i = 0; i < mapList.size; i++) {
+            System.out.println(mapList.get(i));
+        }
 
 
 
@@ -33,7 +53,7 @@ public class Main {
         list.add("Bloemen");
         list.add("Yuchengco Auditorium");
 
-        System.out.println("\n\n===== PlaceList TEST =====");
+    /*    System.out.println("\n\n===== PlaceList TEST =====");
 
         // size
         System.out.println("A. Count the places");
@@ -62,5 +82,7 @@ public class Main {
         System.out.println("Bloem (incomplete name): "
                 + list.indexOf("Bloem"));
         System.out.println("Gym (not in list): " + list.indexOf("Gym"));
+
+     */
     }
 }

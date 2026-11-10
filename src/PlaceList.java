@@ -26,4 +26,23 @@ public class PlaceList {
         }
         return -1;
     }
+
+    // sorts the places A to Z (selection sort)
+    void sortAZ() {
+        for (int i = 0; i < size - 1; i++) {
+            int min = i;
+
+            for (int j = i + 1; j < size; j++) {
+                if (places[j].compareToIgnoreCase(places[min]) < 0) {
+                    min = j;
+                }
+
+
+            }
+            String temp = places[i];
+            places[i] = places[min];
+            places[min] = temp;
+        }
+
+    }
 }
