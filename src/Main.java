@@ -1,88 +1,103 @@
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
 
-        // Graph
-        System.out.println("==== PlaceGraph TEST ====");
+        // graph
         PlaceGraph places = new PlaceGraph();
         String[] linePlaces = new String[2];
 
-        PlaceList mapList = new PlaceList();
+        // Main Menu
+        String choice = "";
+        boolean loaded = false;
+        IO.println("=========================================");
+        IO.println("           CAMPUS MAP FINDER");
+        IO.println("=========================================");
 
-        // Read map file
-        try(BufferedReader r = new BufferedReader(new FileReader("map.txt")))
-        {
-            String line;
-            while(((line = r.readLine()) != null))
+        while (!choice.equalsIgnoreCase("4")) {
+            IO.println("\n1. Load Map");
+            IO.println("2. Show All Places");
+            IO.println("3. Find Shortest Path");
+            IO.println("4. Exit");
+            choice = IO.readln("Enter Your Choice: ");
+            IO.println();
+
+            switch (choice)
             {
-                linePlaces = line.split(" ");
-                places.addEdge(linePlaces[0], linePlaces[1]);
-
-                // save each place once
-                for (String name : linePlaces) {
-                    if (mapList.indexOf(name) == -1) {
-                        mapList.add(name);
+                case "1":   // load the map
+                    try(BufferedReader r = new BufferedReader(new FileReader("map.txt")))
+                    {
+                        String line;
+                        while(((line = r.readLine()) != null))
+                        {
+                            linePlaces = line.split(" ");
+                            places.addEdge(linePlaces[0], linePlaces[1]);
+                        }
+                        IO.println("The map has been successfully loaded.");
+                        loaded = true;
+                    } catch(FileNotFoundException e){
+                        IO.println("[ERROR] Map file not found.");
+                    } catch (IOException e) {
+                        IO.println("[ERROR] Unable to read map file.");
                     }
-                }
+                    break;
+                case "2":   // show all places from A-Z
+                    if (!loaded)
+                        IO.println("[ERROR] Please load the map first.");
+                    else{
+                        IO.println("Places in A-Z:");
+                        String[] sortedPlaces = places.showPlaces();
+                        for (int i = 0; i < sortedPlaces.length; i++) {
+                            IO.println((i + 1) + ". " + sortedPlaces[i]);
+                        }
+                    }
+                    break;
+                case "3":   // find shortest path between two places
+                    if (!loaded)
+                        IO.println("[ERROR] Please load the map first.");
+                    else {
+                        String choicePlaces = IO.readln("Enter two places separated by comma: ");
+                        String[] twoPlaces = choicePlaces.split(",");
+
+                        if (twoPlaces.length != 2) {
+                            IO.println("[ERROR] Please enter exactly two places separated by a comma.");
+                        } else {
+                            String from = twoPlaces[0].trim().replace(' ', '_');
+                            String to = twoPlaces[1].trim().replace(' ', '_');
+
+                            int f = places.getIndex(from);
+                            int t = places.getIndex(to);
+
+                            if (f == -1 || t == -1) {
+                                IO.println("[ERROR] One or both places do not exist.");
+                            } else if (f == t) {
+                                IO.println("You are already at " + places.places[f].replace("_", " ") + ".");
+                            } else {
+                                List<String> path = BFS.shortestPath(places.toAdjacencyList(),
+                                        places.places[f], places.places[t]);
+
+                                if (path.isEmpty()) {
+                                    IO.println("No path found between those places.");
+                                } else {
+                                    IO.println("Shortest path (" + (path.size() - 1) + " steps):");
+                                    for (int i = 0; i < path.size(); i++) {
+                                        IO.print(path.get(i).replace("_", " "));
+                                        if (i < path.size() - 1) IO.print(" -> ");
+                                    }
+                                    IO.println();
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case "4":   // Exit
+                    IO.println("Thank you for using Campus Map Finder!");
+                    break;
+                default:
+                    IO.println("Please choose a valid option.");
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-
-        // print the adjacency matrix
-        places.displayAdjacencyMatrix();
-
-        // sort test
-        System.out.println("\n\n===== Sort TEST =====");
-        System.out.println("Before:");
-        for (int i = 0; i < mapList.size; i++) {
-            System.out.println(mapList.get(i));
-        }
-        mapList.sortAZ();
-        System.out.println("\nAfter (A to Z):");
-        for (int i = 0; i < mapList.size; i++) {
-            System.out.println(mapList.get(i));
-        }
-
-
-
-        PlaceList list = new PlaceList();
-        list.add("Learning Commons");
-        list.add("Bloemen");
-        list.add("Yuchengco Auditorium");
-
-    /*    System.out.println("\n\n===== PlaceList TEST =====");
-
-        // size
-        System.out.println("A. Count the places");
-        System.out.println("Total places: " + list.size);
-        System.out.println();
-
-        // get
-        System.out.println("B. Get a place by spot");
-        System.out.println("Spot 0 (first): " + list.get(0));
-        System.out.println("Spot 1 (middle): " + list.get(1));
-        System.out.println("Spot 2 (last): " + list.get(2));
-        System.out.println("Spot 3 (empty): " + list.get(3));
-        System.out.println();
-
-        // search
-        System.out.println("C. Find a place by name");
-        System.out.println("Learning Commons (first): "
-                + list.indexOf("Learning Commons"));
-        System.out.println("Bloemen (middle): " + list.indexOf("Bloemen"));
-        System.out.println("Yuchengco Auditorium (last): "
-                + list.indexOf("Yuchengco Auditorium"));
-        System.out.println("bloemen (small letters): "
-                + list.indexOf("bloemen"));
-        System.out.println("BLOEMEN (capital letters): "
-                + list.indexOf("BLOEMEN"));
-        System.out.println("Bloem (incomplete name): "
-                + list.indexOf("Bloem"));
-        System.out.println("Gym (not in list): " + list.indexOf("Gym"));
-
-     */
     }
 }

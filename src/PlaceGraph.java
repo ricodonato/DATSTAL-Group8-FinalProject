@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class PlaceGraph {
 
     int[][] adjacency = new int[10][10];
@@ -57,5 +62,44 @@ public class PlaceGraph {
         }
     }
 
+    // display all places from A-Z
+    String[] showPlaces(){
+        PlaceList sorted = new PlaceList();
+
+        for (int i = 0; i < places.length; i++) {
+            sorted.add(places[i]);
+        }
+
+        sorted.sortAZ();
+
+        String[] result = new String[sorted.size];
+        for (int i = 0; i < sorted.size; i++) {
+            result[i] = sorted.get(i);
+        }
+        return result;
+    }
+
+    // find shortest path between two places
+    Map<String, List<String>> toAdjacencyList() {
+        Map<String, List<String>> graph = new HashMap<>();
+        for (int i = 0; i < places.length; i++) {
+            List<String> neighbors = new ArrayList<>();
+            for (int j = 0; j < places.length; j++) {
+                if (adjacency[i][j] == 1) {
+                    neighbors.add(places[j]);
+                }
+            }
+            graph.put(places[i], neighbors);
+        }
+        return graph;
+    }
+
+    int getIndex(String name) {
+        for (int i = 0; i < places.length; i++) {
+            if (places[i].equalsIgnoreCase(name))
+                return i;
+        }
+        return -1;
+    }
 }
 
