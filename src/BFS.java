@@ -1,50 +1,60 @@
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 public class BFS {
-    public static List<String> shortestPath(Map<String, List<String>> graph,
-                                            String start, String goal) {
-        if (!graph.containsKey(start) || !graph.containsKey(goal)) {
-            return Collections.emptyList();
+
+    public static String[] shortestPath(int[][] adj, String[] names,
+                                        int start, int goal) {
+        int n = names.length;
+        if (start < 0 || start >= n || goal < 0 || goal >= n) {
+            return new String[0];
         }
 
-        Queue<String> queue = new Queue<>();
-        Set<String> visited = new HashSet<>();
-        Map<String, String> parent = new HashMap<>();
+        int[] queue = new int[n];
+        int head = 0;
+        int tail = 0;
+        boolean[] visited = new boolean[n];
+        int[] parent = new int[n];
 
-        queue.enqueue(start);
-        visited.add(start);
+        for (int i = 0; i < n; i++) {
+            parent[i] = -1;
+        }
 
-        while (!queue.isEmpty()) {
-            String current = queue.dequeue();
+        queue[tail] = start;
+        tail++;
+        visited[start] = true;
 
-            if (current.equals(goal)) {
-                return buildPath(parent, start, goal);
+        while (head < tail) {
+            int current = queue[head];
+            head++;
+
+            if (current == goal) {
+                return buildPath(parent, names, goal);
             }
 
-            for (String neighbor : graph.getOrDefault(current, Collections.emptyList())) {
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    parent.put(neighbor, current);
-                    queue.enqueue(neighbor);
+            for (int next = 0; next < n; next++) {
+                if (adj[current][next] != 0 && !visited[next]) {
+                    visited[next] = true;
+                    parent[next] = current;
+                    queue[tail] = next;
+                    tail++;
                 }
             }
         }
 
-        return Collections.emptyList(); // goal not reachable
+        return new String[0];
     }
-    private static List<String> buildPath(Map<String, String> parent,
-                                          String start, String goal) {
-        LinkedList<String> path = new LinkedList<>();
-        for (String at = goal; at != null; at = parent.get(at)) {
-            path.addFirst(at);
+
+    private static String[] buildPath(int[] parent, String[] names,
+                                      int goal) {
+        int length = 0;
+        for (int at = goal; at != -1; at = parent[at]) {
+            length++;
+        }
+
+        String[] path = new String[length];
+        int at = goal;
+        for (int i = length - 1; i >= 0; i--) {
+            path[i] = names[at];
+            at = parent[at];
         }
         return path;
     }
-
 }
