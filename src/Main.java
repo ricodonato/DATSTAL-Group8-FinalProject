@@ -27,7 +27,8 @@ public class Main {
             switch (choice)
             {
                 case "1":   // load the map
-                    try(BufferedReader r = new BufferedReader(new FileReader("map.txt")))
+                    try(BufferedReader r = new BufferedReader(new FileReader
+                            ("map.txt")))
                     {
                         String line;
                         while(((line = r.readLine()) != null))
@@ -58,33 +59,44 @@ public class Main {
                     if (!loaded)
                         IO.println("[ERROR] Please load the map first.");
                     else {
-                        String choicePlaces = IO.readln("Enter two places separated by comma: ");
+                        String choicePlaces = IO.readln("Enter two places " +
+                                "separated by comma: ");
                         String[] twoPlaces = choicePlaces.split(",");
-
                         if (twoPlaces.length != 2) {
-                            IO.println("[ERROR] Please enter exactly two places separated by a comma.");
+                            IO.println("[ERROR] Please enter exactly two " +
+                                    "places separated " + "by a comma.");
                         } else {
-                            String from = twoPlaces[0].trim().replace(' ', '_');
+                            String from = twoPlaces[0].trim().replace(' ',
+                                    '_');
                             String to = twoPlaces[1].trim().replace(' ', '_');
 
                             int f = places.getIndex(from);
                             int t = places.getIndex(to);
 
                             if (f == -1 || t == -1) {
-                                IO.println("[ERROR] One or both places do not exist.");
+                                IO.println("[ERROR] One or both places " +
+                                        "do not exist.");
                             } else if (f == t) {
-                                IO.println("You are already at " + places.places[f].replace("_", " ") + ".");
+                                IO.println("You are already at " +
+                                        places.places[f].replace
+                                        ("_", " ") + ".");
                             } else {
-                                List<String> path = BFS.shortestPath(places.toAdjacencyList(),
+                                List<String> path =
+                                        BFS.shortestPath(places.
+                                                        toAdjacencyList(),
                                         places.places[f], places.places[t]);
 
                                 if (path.isEmpty()) {
-                                    IO.println("No path found between those places.");
+                                    IO.println("No path found between" +
+                                            " those places.");
                                 } else {
-                                    IO.println("Shortest path (" + (path.size() - 1) + " steps):");
-                                    for (int i = 0; i < path.size(); i++) {
-                                        IO.print(path.get(i).replace("_", " "));
-                                        if (i < path.size() - 1) IO.print(" -> ");
+                                    IO.println("Shortest path (" +
+                                            (path.size() - 1) + " steps):");
+                                    for (int i = 0; i < path.size(); i++)
+                                    {IO.print
+                                            (path.get(i).replace("_", " "));
+                                        if (i < path.size() - 1) IO.print
+                                                (" -> ");
                                     }
                                     IO.println();
                                 }
